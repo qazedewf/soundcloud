@@ -5,7 +5,7 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
-      - run: brew install xcodegen && xcodegen
+      - run: brew install xcodegen ldid && xcodegen
       - run: >
           xcodebuild -project MySC.xcodeproj -scheme MySC -sdk iphoneos
           -configuration Release -derivedDataPath build
@@ -13,6 +13,7 @@ jobs:
       - run: |
           mkdir Payload
           cp -r build/Build/Products/Release-iphoneos/MySC.app Payload/
+          ldid -S Payload/MySC.app/MySC
           zip -r MySC.ipa Payload
       - uses: actions/upload-artifact@v4
         with: { name: MySC-ipa, path: MySC.ipa }
