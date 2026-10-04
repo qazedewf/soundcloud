@@ -1,0 +1,18 @@
+name: build
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - run: brew install xcodegen && xcodegen
+      - run: >
+          xcodebuild -project MySC.xcodeproj -scheme MySC -sdk iphoneos
+          -configuration Release -derivedDataPath build
+          CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+      - run: |
+          mkdir Payload
+          cp -r build/Build/Products/Release-iphoneos/MySC.app Payload/
+          zip -r MySC.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with: { name: MySC-ipa, path: MySC.ipa }
