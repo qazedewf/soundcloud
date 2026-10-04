@@ -1,0 +1,19 @@
+name: MySC
+options:
+  deploymentTarget:
+    iOS: "15.0"
+targets:
+  MySC:
+    type: application
+    platform: iOS
+    sources: [Sources]
+    info:
+      path: Sources/Info.plist
+      properties:
+        CFBundleDisplayName: MySC
+        UILaunchScreen: {}
+        UIBackgroundModes: [audio]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.personal.mysc
+        SWIFT_VERSION: "5.0"
